@@ -1,0 +1,10 @@
+# dsh-github-aide bundle patch — one insert row over the profile tree.
+# The entry id is the settings namespace and the credential scope owner.
+- insert:
+    - id: github-aide
+      name: dsh-github-aide
+      config:
+        visibility: private
+        autoInit: false
+        allowSensitive: false
+        autoIgnore: true

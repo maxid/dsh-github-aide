@@ -1,0 +1,70 @@
+{
+  "name": "dsh-github-aide",
+  "version": "0.1.0",
+  "displayName": "DSH GitHub Aide",
+  "description": "Publish a workspace or project directory to GitHub from DeepSeek Harness: read-only preflight, secret scan, .gitignore generation, repo creation, commit, divergence handling, and push — with the token held in the DSH credential store.",
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "github",
+    "git",
+    "sync",
+    "upload",
+    "publish"
+  ],
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "lib",
+    "scripts",
+    "test",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md",
+    "NOTICE.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:verify": "node test/verify.mjs",
+    "harness": "node scripts/apply-harness.mjs",
+    "smoke": "node scripts/live-smoke.mjs",
+    "install:plugin": "node scripts/install.mjs"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxid/dsh-github-aide.git"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.0",
+    "@deepseek-ai/dsh-credentials": ">=0.0.1-rc.1",
+    "@deepseek-ai/dsh-tools": ">=0.0.1-rc.1",
+    "@deepseek-ai/dsh-util-workspace-path": ">=0.1.0",
+    "@deepseek-ai/schemastery": ">=3.18.0"
+  }
+}

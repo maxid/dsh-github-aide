@@ -1,0 +1,28 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      # No dependencies: the suite runs on Node builtins plus the git binary.
+      - name: unit + integration tests
+        run: node --test test/*.test.mjs
+      - name: self-contained verifier
+        run: node test/verify.mjs
+      - name: host wiring
+        run: node scripts/apply-harness.mjs
+      - name: live smoke (real git, local bare remote)
+        run: node scripts/live-smoke.mjs
