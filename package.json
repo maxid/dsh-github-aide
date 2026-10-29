@@ -61,10 +61,8 @@
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": ">=4.0.0",
     "@deepseek-ai/dsh-credentials": ">=0.0.1-rc.1",
     "@deepseek-ai/dsh-tools": ">=0.0.1-rc.1",
-    "@deepseek-ai/dsh-util-workspace-path": ">=0.1.0",
     "@deepseek-ai/schemastery": ">=3.18.0"
   }
 }
