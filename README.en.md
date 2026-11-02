@@ -33,10 +33,29 @@ DSH:  Published 12 changed files to maxid/my-project (branch main).
 
 ## Requirements
 
-- DeepSeek Harness **0.2.1+** (verified on `0.2.1-rc.3`)
+- DeepSeek Harness `>=0.2.1-rc.3 <0.3.0-0` (verified on `0.2.1-rc.5` and on the current desktop build `0.2.1-rc.3`)
 - Node.js **22+**
 - `git` on `PATH` (no `gh` CLI needed)
 - A GitHub personal access token
+
+## Version tags
+
+Each tag mirrors one official [DeepSeek Harness release](https://github.com/deepseek-ai/deepseek-harness/releases) and reuses its name, `dsh-v<version>`:
+
+| DSH version | Plugin tag | Verification |
+|---|---|---|
+| `0.2.1-rc.5` (latest) | `dsh-v0.2.1-rc.5` | ✅ booted a real Web profile on 2026-11-02: host tools/settings/routes registered, client bundle loaded |
+| `0.2.1-rc.3` (current desktop) | `dsh-v0.2.1-rc.3` | ✅ daily desktop use (tools and panel both work) |
+
+`engines.dsh` declares `>=0.2.1-rc.3 <0.3.0-0` (the `-0` also puts 0.3 prereleases outside the boundary): DSH versions inside that range need no tag switch; when DSH reaches `0.3` (including alpha/rc) this plugin publishes the matching tag first.
+
+Install for a specific DSH version:
+
+```bash
+dsh plugin --profile desktop add "github:maxid/dsh-github-aide#dsh-v0.2.1-rc.5"
+```
+
+See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ## Install
 
@@ -170,6 +189,20 @@ node scripts/http-check.mjs http://127.0.0.1:PORT  # probe a running host (skips
 ```
 
 Everything runs offline: no DSH packages, no network, no real GitHub token.
+
+### Real DSH version check
+
+Cross-version compatibility is verified against real runtimes (see the version-tag table). For `0.2.1-rc.5`:
+
+```bash
+# isolated DSH home, so the desktop profile is untouched
+export DSH_HOME=/tmp/dsh-rc5-home
+dsh plugin --profile compat add "link:$PWD"
+dsh --profile compat --no-open --port 3199
+curl -s "http://127.0.0.1:3199/plugins/dsh-github-aide/status"
+```
+
+`status` reporting `capabilities.tools/credentials/webServer` as `true` proves the host half registered its tools, settings, and routes on a real DSH runtime.
 
 ## Layout
 

@@ -1,6 +1,6 @@
 {
   "name": "dsh-github-aide",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "DSH GitHub Aide",
   "description": "Publish a workspace or project directory to GitHub from DeepSeek Harness: read-only preflight, secret scan, .gitignore generation, repo creation, commit, divergence handling, and push — with the token held in the DSH credential store.",
   "keywords": [
@@ -29,6 +29,7 @@
     "cordis.patch.yml",
     "README.md",
     "README.en.md",
+    "CHANGELOG.md",
     "NOTICE.md",
     "LICENSE"
   ],
@@ -45,7 +46,8 @@
     "url": "git+https://github.com/maxid/dsh-github-aide.git"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.0.0",
+    "dsh": ">=0.2.1-rc.3 <0.3.0-0"
   },
   "dsh": {
     "bundle": {

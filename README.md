@@ -33,10 +33,29 @@ DSH：  已把 12 个变更文件发布到 maxid/my-project（分支 main）。
 
 ## 环境要求
 
-- DeepSeek Harness **0.2.1** 或更高（已在 `0.2.1-rc.3` 上验证加载）
+- DeepSeek Harness `>=0.2.1-rc.3 <0.3.0-0`（已在 `0.2.1-rc.5` 与当前桌面版 `0.2.1-rc.3` 上验证加载）
 - Node.js **22+**
 - `PATH` 中有 `git`（不需要 `gh` CLI）
 - 一个 GitHub personal access token
+
+## 版本对应（tag）
+
+本仓库的 tag 与 [DeepSeek Harness 官方版本](https://github.com/deepseek-ai/deepseek-harness/releases)一一对应，命名沿用官方的 `dsh-v<版本>`：
+
+| DSH 版本 | 对应插件 tag | 验证情况 |
+|---|---|---|
+| `0.2.1-rc.5`（当前最新） | `dsh-v0.2.1-rc.5` | ✅ 2026-11-02 在独立 profile 中真实启动 Web 验证：Host 工具/设置/路由注册成功，Client bundle 正常加载 |
+| `0.2.1-rc.3`（当前桌面版） | `dsh-v0.2.1-rc.3` | ✅ 桌面版日常使用验证（工具与面板均可用） |
+
+`package.json` 的 `engines.dsh` 声明 `>=0.2.1-rc.3 <0.3.0-0`（`-0` 让 0.3 的预发布版本也算在边界外）：这个范围内的 DSH 版本不需要换 tag；DSH 进入 `0.3`（含 alpha/rc）时，本插件会先发布对应版本的 tag。
+
+按 DSH 版本安装：
+
+```bash
+dsh plugin --profile desktop add "github:maxid/dsh-github-aide#dsh-v0.2.1-rc.5"
+```
+
+详细变更见 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 安装
 
@@ -170,6 +189,20 @@ node scripts/http-check.mjs http://127.0.0.1:PORT  # 对已启动的 host 做 HT
 ```
 
 全部离线运行，不需要 DSH 包、不联网、不需要真实 GitHub 令牌。
+
+### 真实 DSH 版本验证
+
+跨版本兼容性用真实运行时验证（见「版本对应」表）。以 `0.2.1-rc.5` 为例：
+
+```bash
+# 独立的 DSH home，避免影响桌面版 profile
+export DSH_HOME=/tmp/dsh-rc5-home
+dsh plugin --profile compat add "link:$PWD"
+dsh --profile compat --no-open --port 3199
+curl -s "http://127.0.0.1:3199/plugins/dsh-github-aide/status"
+```
+
+`status` 返回 `capabilities.tools/credentials/webServer` 均为 `true`，说明 Host 半已在真实 DSH 上完成工具、设置与路由注册。
 
 ## 目录结构
 
